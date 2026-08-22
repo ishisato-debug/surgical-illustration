@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>手術イラストの描き方</title>
+<meta name="description" content="iPad と Procreate で手術記録を描くための講義資料。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  color-scheme: light dark;
+  --paper:#f6f4f0;
+  --card:#ffffff;
+  --ink:#1b202a;
+  --ink-soft:#5c6472;
+  --accent:#2f5d7c;
+  --accent-ink:#ffffff;
+  --accent-soft:#e4edf3;
+  --rule:#ddd8d0;
+  --shadow:0 1px 2px rgba(27,32,42,.06), 0 8px 24px rgba(27,32,42,.07);
+  --bar:rgba(246,244,240,.88);
+  --font-jp:"Zen Kaku Gothic New", system-ui, "Hiragino Sans", "Yu Gothic", sans-serif;
+  --font-mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#15181f;
+    --card:#f6f4f0;
+    --ink:#e6e4e0;
+    --ink-soft:#9aa1ad;
+    --accent:#7fb2d4;
+    --accent-ink:#12161c;
+    --accent-soft:#1f2732;
+    --rule:#2b323d;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+    --bar:rgba(21,24,31,.88);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15181f;
+  --card:#f6f4f0;
+  --ink:#e6e4e0;
+  --ink-soft:#9aa1ad;
+  --accent:#7fb2d4;
+  --accent-ink:#12161c;
+  --accent-soft:#1f2732;
+  --rule:#2b323d;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+  --bar:rgba(21,24,31,.88);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-jp);
+  font-weight:400;
+  line-height:1.75;
+  letter-spacing:.01em;
+}
+img{max-width:100%;display:block}
+
+.wrap{max-width:60rem;margin:0 auto;padding:0 1.1rem}
+
+/* ---------- header ---------- */
+.masthead{padding-block:3.2rem 1.6rem}
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:.72rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin:0 0 .9rem;
+}
+.masthead h1{
+  font-size:clamp(1.75rem,6vw,2.7rem);
+  font-weight:700;
+  line-height:1.3;
+  letter-spacing:.02em;
+  margin:0 0 .7rem;
+  text-wrap:balance;
+}
+.lede{
+  margin:0;
+  max-width:34em;
+  color:var(--ink-soft);
+  font-size:1rem;
+}
+
+/* ---------- sticky nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:40;
+  background:var(--bar);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--rule);
+}
+.nav-inner{
+  max-width:60rem;margin:0 auto;
+  display:flex;align-items:center;gap:.4rem;
+  padding:.55rem 1.1rem;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav a{
+  flex:0 0 auto;
+  font-size:.85rem;
+  font-weight:500;
+  text-decoration:none;
+  color:var(--ink-soft);
+  padding:.4rem .7rem;
+  border-radius:999px;
+  white-space:nowrap;
+  transition:background .15s ease, color .15s ease;
+}
+.nav a:hover{background:var(--accent-soft);color:var(--accent)}
+.nav a.pdf{
+  margin-left:auto;
+  background:var(--accent);
+  color:var(--accent-ink);
+  font-weight:700;
+}
+.nav a.pdf:hover{background:var(--accent);color:var(--accent-ink);opacity:.88}
+.nav .short{display:none}
+
+/* ---------- sections ---------- */
+section{padding:2.6rem 0 .6rem;scroll-margin-top:4rem}
+.sec-head{
+  display:flex;align-items:baseline;gap:.75rem;
+  border-top:2px solid var(--accent);
+  padding-top:.9rem;
+  margin-bottom:.5rem;
+}
+.sec-num{
+  font-family:var(--font-mono);
+  font-size:.8rem;
+  color:var(--accent);
+  flex:0 0 auto;
+}
+.sec-head h2{
+  font-size:clamp(1.2rem,4vw,1.55rem);
+  font-weight:700;
+  letter-spacing:.02em;
+  margin:0;
+}
+.sec-note{
+  margin:0 0 1.6rem;
+  color:var(--ink-soft);
+  font-size:.93rem;
+  max-width:38em;
+}
+
+/* ---------- slide cards ---------- */
+.slides{display:flex;flex-direction:column;gap:1.5rem}
+figure.slide{margin:0}
+.slide-label{
+  display:flex;align-items:center;gap:.6rem;
+  margin-bottom:.45rem;
+}
+.slide-num{
+  font-family:var(--font-mono);
+  font-size:.72rem;
+  color:var(--accent);
+  background:var(--accent-soft);
+  padding:.12rem .45rem;
+  border-radius:4px;
+  flex:0 0 auto;
+}
+.slide-title{
+  font-size:.9rem;
+  font-weight:500;
+  color:var(--ink-soft);
+  letter-spacing:.02em;
+}
+button.shot{
+  display:block;width:100%;padding:0;
+  border:1px solid var(--rule);
+  border-radius:10px;
+  overflow:hidden;
+  background:var(--card);
+  box-shadow:var(--shadow);
+  cursor:zoom-in;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+button.shot:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(27,32,42,.08),0 14px 32px rgba(27,32,42,.1)}
+button.shot:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+button.shot img{width:100%;height:auto}
+
+/* ---------- download ---------- */
+.download{
+  margin:3rem 0 1rem;
+  background:var(--accent);
+  color:var(--accent-ink);
+  border-radius:12px;
+  padding:1.8rem 1.5rem;
+  display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.5rem;
+}
+.download p{margin:0;flex:1 1 16rem}
+.download strong{display:block;font-size:1.1rem;font-weight:700;letter-spacing:.02em}
+.download span{font-size:.87rem;opacity:.82}
+.download a{
+  flex:0 0 auto;
+  background:var(--accent-ink);
+  color:var(--accent);
+  text-decoration:none;
+  font-weight:700;
+  font-size:.95rem;
+  padding:.75rem 1.5rem;
+  border-radius:8px;
+  transition:opacity .15s ease;
+}
+.download a:hover{opacity:.85}
+.download a:focus-visible{outline:3px solid var(--accent-ink);outline-offset:3px}
+
+footer{
+  border-top:1px solid var(--rule);
+  margin-top:2rem;padding-block:1.6rem 3.5rem;
+  color:var(--ink-soft);
+  font-size:.84rem;
+}
+footer p{margin:.2rem 0}
+
+/* ---------- lightbox ---------- */
+.lb{
+  position:fixed;inset:0;z-index:100;
+  background:#0c0e12;
+  display:none;
+  flex-direction:column;
+}
+.lb.on{display:flex}
+.lb-body{
+  flex:1 1 auto;
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  display:flex;align-items:center;justify-content:center;
+}
+.lb.zoom .lb-body{display:block}
+.lb img{
+  display:block;
+  width:100%;height:auto;
+  max-width:100%;
+  cursor:zoom-in;
+}
+.lb.zoom img{width:250%;max-width:none;cursor:zoom-out}
+.lb-bar{
+  flex:0 0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;padding:.6rem .9rem;
+  background:rgba(12,14,18,.85);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+  color:#f2f0ec;
+}
+.lb-cap{
+  font-size:.82rem;letter-spacing:.02em;
+  flex:1 1 auto;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.lb-hint{flex:0 0 auto;font-size:.72rem;opacity:.65;white-space:nowrap}
+.lb-hint::after{content:"タップで拡大"}
+.lb.zoom .lb-hint::after{content:"タップで戻す"}
+@media (max-width:420px){ .lb-hint{display:none} }
+.lb-close{
+  background:none;border:1px solid rgba(242,240,236,.35);
+  color:#f2f0ec;font-family:var(--font-jp);font-size:.85rem;
+  padding:.35rem .8rem;border-radius:6px;cursor:pointer;
+}
+.lb-close:hover{background:rgba(242,240,236,.12)}
+.lb-close:focus-visible{outline:2px solid #f2f0ec;outline-offset:2px}
+body.locked{overflow:hidden}
+
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;animation:none!important}
+}
+@media (max-width:640px){
+  .masthead{padding-block:2.2rem 1.2rem}
+  section{padding:2rem 0 .4rem}
+  .download{flex-direction:column;align-items:flex-start;padding:1.4rem 1.2rem}
+  .nav .long{display:none}
+  .nav .short{display:inline}
+  .nav-inner{gap:.3rem;padding-inline:.9rem}
+  .nav a{padding:.4rem .6rem}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead wrap">
+  <p class="eyebrow">Lecture Handout</p>
+  <h1>手術イラストの描き方</h1>
+  <p class="lede">iPad と Procreate で手術記録を描くための資料です。講義中はこのページをそのまま開いて見てください。画像はタップすると拡大できます。</p>
+</header>
+
+<nav class="nav" aria-label="セクション">
+  <div class="nav-inner">
+    <a href="#basics"><span class="long">デジタルイラストの基本</span><span class="short">基本</span></a>
+    <a href="#example"><span class="long">オペレコの例</span><span class="short">オペレコ例</span></a>
+    <a href="#refs">おすすめ資料</a>
+    <a class="pdf" href="handout.pdf" download>PDF</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <section id="basics">
+    <div class="sec-head"><span class="sec-num">01</span><h2>デジタルイラストの基本</h2></div>
+    <p class="sec-note">Procreate は機能が多いですが、手術記録を描くのに使うのは5つだけです。まずこの5つを覚えてください。</p>
+    <div class="slides">
+      <figure class="slide">
+        <div class="slide-label"><span class="slide-num">01</span><span class="slide-title">使う機能は5つだけ</span></div>
+        <button class="shot" type="button" data-full="images/slide-01-full.jpg" data-cap="使う機能は5つだけ">
+          <img src="images/slide-01.jpg" alt="使う機能は5つだけ：①レイヤー機能 ②マスクをクリップ ③ぼかし ④ゆがみ ⑤手ぶれ補正" width="1600" height="900">
+        </button>
+      </figure>
+      <figure class="slide">
+        <div class="slide-label"><span class="slide-num">02</span><span class="slide-title">基本画面の説明</span></div>
+        <button class="shot" type="button" data-full="images/slide-02-full.jpg" data-cap="基本画面の説明">
+          <img src="images/slide-02.jpg" alt="Procreate の基本画面。各ボタンの位置と役割" width="1600" height="900" loading="lazy">
+        </button>
+      </figure>
+      <figure class="slide">
+        <div class="slide-label"><span class="slide-num">03</span><span class="slide-title">①レイヤー機能</span></div>
+        <button class="shot" type="button" data-full="images/slide-03-full.jpg" data-cap="①レイヤー機能">
+          <img src="images/slide-03.jpg" alt="レイヤーの追加、並べ替え、透明度、表示の切り替え" width="1600" height="900" loading="lazy">
+        </button>
+      </figure>
+      <figure class="slide">
+        <div class="slide-label"><span class="slide-num">04</span><span class="slide-title">①レイヤー機能 — グループ化と結合</span></div>
+        <button class="shot" type="button" data-full="images/slide-04-full.jpg" data-cap="①レイヤー機能 — グループ化と結合">
+          <img src="images/slide-04.jpg" alt="複数レイヤーの選択、グループ化、フラット化" width="1600" height="900" loading="lazy">
+        </button>
+      </figure>
+      <figure class="slide">
+        <div class="slide-label"><span class="slide-num">05</span><span class="slide-title">②マスクをクリップ（型抜き）</span></div>
+        <button class="shot" type="button" data-full="images/slide-05-full.jpg" data-cap="②マスクをクリップ（型抜き）">
+          <img src="images/slide-05.jpg" alt="下のベタ塗りレイヤーを型にして、上のレイヤーのはみ出しを抑える" width="1600" height="900" loading="lazy">
+        </button>
+      </figure>
+      <figure class="slide">
+        <div class="slide-label"><span class="slide-num">06</span><span class="slide-title">③ぼかし</span></div>
+        <button class="shot" type="button" data-full="images/slide-06-full.jpg" data-cap="③ぼかし">
+          <img src="images/slide-06.jpg" alt="調整ボタンからぼかし（ガウス）で陰影をなじませる" width="1600" height="900" loading="lazy">
+        </button>
+      </figure>
+      <figure class="slide">
+        <div class="slide-label"><span class="slide-num">07</span><span class="slide-title">④ゆがみ</span></div>
+        <button class="shot" type="button" data-full="images/slide-07-full.jpg" data-cap="④ゆがみ">
+          <img src="images/slide-07.jpg" alt="調整ボタンからゆがみで球体を臓器の形に変形させる" width="1600" height="900" loading="lazy">
+        </button>
+      </figure>
+      <figure class="slide">
+        <div class="slide-label"><span class="slide-num">08</span><span class="slide-title">⑤手ぶれ補正 — 設定</span></div>
+        <button class="shot" type="button" data-full="images/slide-08-full.jpg" data-cap="⑤手ぶれ補正 — 設定">
+          <img src="images/slide-08.jpg" alt="ブラシスタジオでストリームライン、手ぶれ補正、モーションのフィルタリングを調整" width="1600" height="900" loading="lazy">
+        </button>
+      </figure>
+      <figure class="slide">
+        <div class="slide-label"><span class="slide-num">09</span><span class="slide-title">⑤手ぶれ補正 — 使い方のコツ</span></div>
+        <button class="shot" type="button" data-full="images/slide-09-full.jpg" data-cap="⑤手ぶれ補正 — 使い方のコツ">
+          <img src="images/slide-09.jpg" alt="補正ありなしの比較と、おすすめの設定値" width="1600" height="900" loading="lazy">
+        </button>
+      </figure>
+      <figure class="slide">
+        <div class="slide-label"><span class="slide-num">10</span><span class="slide-title">ブラシについて</span></div>
+        <button class="shot" type="button" data-full="images/slide-10-full.jpg" data-cap="ブラシについて">
+          <img src="images/slide-10.jpg" alt="オペレコに使うブラシは3つ：滲んだインク、モノライン、ソフトブラシ" width="1600" height="900" loading="lazy">
+        </button>
+      </figure>
+    </div>
+  </section>
+
+  <section id="example">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Procreateで描いたオペレコの例</h2></div>
+    <p class="sec-note">膵頭部癌に対する SSPPD、SMV 合併切除の記録です。細かい文字が多いので、タップして拡大してから読んでください。スマホは横向きにすると大きく表示されます。</p>
+    <div class="slides">
+      <figure class="slide">
+        <div class="slide-label"><span class="slide-num">11</span><span class="slide-title">展開と郭清（皮切〜SMA右側郭清）</span></div>
+        <button class="shot" type="button" data-full="images/slide-11-full.jpg" data-cap="展開と郭清（皮切〜SMA右側郭清）">
+          <img src="images/slide-11.jpg" alt="皮切と開腹所見、血管走行、右半結腸授動とKocher、SMA腹側・左側、腸回転解除とSMA右側郭清" width="1600" height="900" loading="lazy">
+        </button>
+      </figure>
+      <figure class="slide">
+        <div class="slide-label"><span class="slide-num">12</span><span class="slide-title">切除と再建（肝十二指腸間膜郭清〜PD II法再建）</span></div>
+        <button class="shot" type="button" data-full="images/slide-12-full.jpg" data-cap="切除と再建（肝十二指腸間膜郭清〜PD II法再建）">
+          <img src="images/slide-12.jpg" alt="肝十二指腸間膜の郭清、膵切離とSMV合併切除、SMV再建、膵空腸吻合、胆管空腸吻合、PD II法再建、ドレーン" width="1600" height="900" loading="lazy">
+        </button>
+      </figure>
+    </div>
+  </section>
+
+  <section id="refs">
+    <div class="sec-head"><span class="sec-num">03</span><h2>おすすめ資料</h2></div>
+    <p class="sec-note">手術記録を描くうえで参考にしたものです。</p>
+    <div class="slides">
+      <figure class="slide">
+        <div class="slide-label"><span class="slide-num">13</span><span class="slide-title">参考資料</span></div>
+        <button class="shot" type="button" data-full="images/slide-13-full.jpg" data-cap="参考資料">
+          <img src="images/slide-13.jpg" alt="参考にした書籍とYouTubeチャンネルの紹介" width="1600" height="900" loading="lazy">
+        </button>
+      </figure>
+    </div>
+  </section>
+
+  <div class="download">
+    <p>
+      <strong>資料をまとめてダウンロード</strong>
+      <span>全13ページ・PDF（約1.7MB）。印刷やオフラインでの見返しにどうぞ。</span>
+    </p>
+    <a href="handout.pdf" download>PDFをダウンロード</a>
+  </div>
+
+</main>
+
+<footer class="wrap">
+  <!-- ▼ここを編集：講義名・日付・氏名 -->
+  <p>手術イラストの描き方 — 講義配布資料</p>
+  <!-- ▲ここまで -->
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="スライドの拡大表示">
+  <div class="lb-bar">
+    <span class="lb-cap" id="lbCap"></span>
+    <span class="lb-hint" aria-hidden="true"></span>
+    <button class="lb-close" type="button" id="lbClose">閉じる</button>
+  </div>
+  <div class="lb-body" id="lbBody"><img id="lbImg" src="" alt=""></div>
+</div>
+
+<script>
+(function(){
+  var lb = document.getElementById('lb');
+  var lbBody = document.getElementById('lbBody');
+  var lbImg = document.getElementById('lbImg');
+  var lbCap = document.getElementById('lbCap');
+  var lbClose = document.getElementById('lbClose');
+  var opener = null;
+
+  function open(btn){
+    var img = btn.querySelector('img');
+    opener = btn;
+    lbImg.src = btn.getAttribute('data-full');
+    lbImg.alt = img ? img.alt : '';
+    lbCap.textContent = btn.getAttribute('data-cap') || '';
+    lb.classList.add('on');
+    lb.classList.remove('zoom');
+    lbBody.scrollTop = 0;
+    lbBody.scrollLeft = 0;
+    document.body.classList.add('locked');
+    lbClose.focus();
+  }
+  function close(){
+    lb.classList.remove('on','zoom');
+    lbImg.src = '';
+    document.body.classList.remove('locked');
+    if(opener){ opener.focus(); opener = null; }
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('button.shot'), function(btn){
+    btn.addEventListener('click', function(){ open(btn); });
+  });
+
+  lbImg.addEventListener('click', function(e){
+    e.stopPropagation();
+    var wasZoomed = lb.classList.contains('zoom');
+    lb.classList.toggle('zoom');
+    if(!wasZoomed){
+      // 拡大したら中央あたりから見えるようにする
+      lbBody.scrollLeft = (lbImg.offsetWidth - lbBody.clientWidth) / 2;
+      lbBody.scrollTop = 0;
+    }
+  });
+  lbClose.addEventListener('click', close);
+  lbBody.addEventListener('click', function(e){ if(e.target === lbBody) close(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && lb.classList.contains('on')) close();
+  });
+})();
+</script>
+
+</body>
+</html>
