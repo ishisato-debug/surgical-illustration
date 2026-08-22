@@ -439,8 +439,12 @@ body.locked{overflow:hidden}
   var lbCap = document.getElementById('lbCap');
   var lbClose = document.getElementById('lbClose');
   var opener = null;
+  var shots = Array.prototype.slice.call(document.querySelectorAll('button.shot'));
+  var current = 0;
 
-  function open(btn){
+  function openAt(index){
+    current = (index + shots.length) % shots.length;
+    var btn = shots[current];
     var img = btn.querySelector('img');
     opener = btn;
     lbImg.src = btn.getAttribute('data-full');
@@ -460,8 +464,8 @@ body.locked{overflow:hidden}
     if(opener){ opener.focus(); opener = null; }
   }
 
-  Array.prototype.forEach.call(document.querySelectorAll('button.shot'), function(btn){
-    btn.addEventListener('click', function(){ open(btn); });
+  shots.forEach(function(btn, i){
+    btn.addEventListener('click', function(){ openAt(i); });
   });
 
   lbImg.addEventListener('click', function(e){
@@ -469,7 +473,6 @@ body.locked{overflow:hidden}
     var wasZoomed = lb.classList.contains('zoom');
     lb.classList.toggle('zoom');
     if(!wasZoomed){
-      // 拡大したら中央あたりから見えるようにする
       lbBody.scrollLeft = (lbImg.offsetWidth - lbBody.clientWidth) / 2;
       lbBody.scrollTop = 0;
     }
@@ -477,8 +480,27 @@ body.locked{overflow:hidden}
   lbClose.addEventListener('click', close);
   lbBody.addEventListener('click', function(e){ if(e.target === lbBody) close(); });
   document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && lb.classList.contains('on')) close();
+    if(!lb.classList.contains('on')) return;
+    if(e.key === 'Escape') close();
+    if(e.key === 'ArrowRight') openAt(current + 1);
+    if(e.key === 'ArrowLeft') openAt(current - 1);
   });
+
+  // スワイプで前後の画像に移動
+  var touchStartX = 0;
+  var touchStartY = 0;
+  lbBody.addEventListener('touchstart', function(e){
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, {passive: true});
+  lbBody.addEventListener('touchend', function(e){
+    if(lb.classList.contains('zoom')) return; // 拡大中はスクロール優先
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    var dy = e.changedTouches[0].clientY - touchStartY;
+    if(Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return; // 縦スワイプや短すぎは無視
+    if(dx < 0) openAt(current + 1);
+    else openAt(current - 1);
+  }, {passive: true});
 })();
 </script>
 
